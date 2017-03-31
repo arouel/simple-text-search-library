@@ -1,0 +1,75 @@
+description = "Simple Text Search Library"
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.10"
+    }
+}
+
+apply plugin: 'antlr'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: "net.ltgt.apt"
+
+sourceCompatibility = 1.7
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': description,
+                   'Implementation-Version': version
+    }
+}
+
+ext.versions = [
+        antlr: "4.+",
+        assertj: "2.+",
+        guava: "20.+",
+        immutables: "2.+",
+        junit: "4.+",
+]
+
+ext.antlr = [
+        grammarPackage: "com.github.before.ssqp",
+        antlrSource: 'src/main/antlr',
+        destinationDir: "build/src/main/generated"
+]
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    antlr4 {
+        description = "ANTLR4"
+    }
+}
+
+dependencies {
+    antlr group: "org.antlr", name: "antlr4", version: versions.antlr
+    apt group: "org.immutables", name: "value", version: versions.immutables
+    compile group: "com.google.guava", name: "guava", version: versions.guava
+    compileOnly group: "org.immutables", name: "value", version: versions.immutables, classifier: 'annotations'
+    testCompile group: "org.assertj", name: "assertj-core", version: versions.assertj
+    testCompile group: "junit", name: "junit", version: versions.junit
+}
+
+generateGrammarSource {
+    maxHeapSize = "64m"
+    arguments += ["-visitor", "-long-messages"]
+    arguments += ["-package", "com.github.before.ssqp"]
+
+    doLast {
+        copy {
+            from 'build/generated-src/antlr/main/'
+            include '*.*'
+            filter { it.replaceAll('public class', 'class').replaceAll('public interface', 'interface') }
+            into 'build/generated-src/antlr/main/com/github/before/ssqp'
+        }
+        project.delete fileTree('build/generated-src/antlr/main').include('*.*')
+    }
+}
