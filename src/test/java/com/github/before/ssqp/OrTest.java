@@ -21,12 +21,6 @@ public class OrTest {
   }
 
   @Test
-  public void testAppend_rightAnd_innerAppend() {
-    assertThat(or(word("a"), and(empty(), empty())).append(word("b"))).isEqualTo(or(word("a"), word("b").and(empty())));
-    assertThat(or(word("a"), and(word("b"), empty())).append(word("c"))).isEqualTo(or(word("a"), word("b").or("c")));
-  }
-
-  @Test
   public void testAppend_rightEmpty() {
     assertThat(or(word("a"), empty()).append(word("b"))).isEqualTo(or(word("a"), word("b")));
   }
