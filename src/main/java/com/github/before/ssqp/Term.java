@@ -29,6 +29,14 @@ abstract class Term extends Matcher {
   }
 
   @Override
+  Matcher simplify() {
+    if (value().trim().isEmpty()) {
+      return empty();
+    }
+    return this;
+  }
+
+  @Override
   public String toString() {
     return value();
   }

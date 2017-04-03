@@ -1,5 +1,6 @@
 package com.github.before.ssqp;
 
+import static com.github.before.ssqp.Matcher.empty;
 import static com.github.before.ssqp.Matcher.term;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,5 +49,15 @@ public class TermTest {
   @Test
   public void testMatches_upperCaseLetter() {
     assertThat(term("a").matches("A")).isTrue();
+  }
+
+  @Test
+  public void testSimplify_blankValue() {
+    assertThat(term(" ").simplify()).isEqualTo(empty());
+  }
+
+  @Test
+  public void testSimplify_emptyValue() {
+    assertThat(term("").simplify()).isEqualTo(empty());
   }
 }
