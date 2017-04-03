@@ -1,5 +1,9 @@
 description = "Simple Text Search Library"
 
+apply plugin: 'antlr'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
 buildscript {
     repositories {
         maven {
@@ -10,11 +14,17 @@ buildscript {
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.10"
     }
 }
-
-apply plugin: 'antlr'
-apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: "net.ltgt.apt"
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    }
+}
+apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = 1.7
 version = '1.0'

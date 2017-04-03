@@ -24,5 +24,6 @@ Pattern.compile("(lorem -sed), (ipsum -amet), (sed eirmod dolor)").matches(text)
 ## Useful Gradle Tasks
 
 * Prepare project for Eclipse IDE: `gradle compileJava eclipse`
-* Executing tests: `gradle test`
-* Create JAR: `gradle assemble`
+* Executing tests:                 `gradle test`
+* Create JAR:                      `gradle jar`
+* Create a fat-JAR:                `gradle shadowJar`
