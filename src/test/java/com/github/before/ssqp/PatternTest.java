@@ -10,7 +10,7 @@ import org.junit.Test;
 
 public class PatternTest {
 
-  private static final String text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
+  private static final String text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est";
 
   @Test
   public void testCompile_and_termA() {
@@ -146,7 +146,17 @@ public class PatternTest {
   }
 
   @Test
+  public void testMatches_phrase() {
+    assertThat(Pattern.compile("\"of tomato\"").matches("A box full of tomatoes.")).isTrue();
+  }
+
+  @Test
   public void testMatches_singleTerm() {
     assertThat(Pattern.compile("ipsum").matches(text)).isTrue();
+  }
+
+  @Test
+  public void testMatches_word() {
+    assertThat(Pattern.compile("notebook").matches("some notebooks ready")).isTrue();
   }
 }

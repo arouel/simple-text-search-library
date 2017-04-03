@@ -24,11 +24,20 @@ public class WordTest {
   }
 
   @Test
-  public void testMatches_filterSpecialCharacters() {
+  public void testMatches_evenWhenSurroundedByLetters() {
+    assertThat(word("a").matches("aü")).isTrue();
+    assertThat(word("a").matches("Ba")).isTrue();
+    assertThat(word("a").matches("b")).isFalse();
+
     assertThat(word("a").matches("a,")).isTrue();
     assertThat(word("a").matches("a-")).isTrue();
     assertThat(word("a").matches("a?")).isTrue();
-    assertThat(word("a").matches("aü")).isFalse();
+    assertThat(word("a").matches("?")).isFalse();
+
+    assertThat(word("a").matches(",a")).isTrue();
+    assertThat(word("a").matches(".a")).isTrue();
+    assertThat(word("a").matches("!a")).isTrue();
+    assertThat(word("a").matches(",")).isFalse();
   }
 
   @Test
