@@ -59,6 +59,37 @@ public class PatternTest {
   }
 
   @Test
+  public void testCompile_phraseWithSpecialCharacters() {
+    assertThat(Pattern.compile("\",.?!:;-/\\[]{}@#*&\"")).isEqualTo(term(",.?!:;-/\\[]{}@#*&"));
+  }
+
+  @Test
+  public void testCompile_quotationMark_manyTerms() {
+    assertThat(Pattern.compile("\"ab cd\"")).isEqualTo(term("ab cd"));
+  }
+
+  @Test
+  public void testCompile_quotationMark_oneTerm() {
+    assertThat(Pattern.compile("\"abcd\"")).isEqualTo(term("abcd"));
+  }
+
+  @Test
+  public void testCompile_quotationMark_scientificalValue() {
+    assertThat(Pattern.compile("\"2.4mm\"")).isEqualTo(term("2.4mm"));
+    assertThat(Pattern.compile("\"2,4mm\"")).isEqualTo(term("2,4mm"));
+  }
+
+  @Test
+  public void testCompile_quotationMarkOnly() {
+    assertThat(Pattern.compile("\"")).isEqualTo(empty());
+  }
+
+  @Test
+  public void testCompile_sentence() {
+    assertThat(Pattern.compile("\"How are you? Fine.\"")).isEqualTo(term("How are you? Fine."));
+  }
+
+  @Test
   public void testCompile_spaceOnly() {
     assertThat(Pattern.compile(" ")).isEqualTo(empty());
     assertThat(Pattern.compile("    ")).isEqualTo(empty());

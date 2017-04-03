@@ -89,7 +89,14 @@ public final class Pattern {
 
     @Override
     public Void visitTerm(TermContext ctx) {
-      expressions.push(expressions.pop().append(term(ctx.getText())));
+      String value = ctx.getText();
+      if (value.startsWith("\"")) {
+        value = value.substring(1);
+        if (value.endsWith("\"")) {
+          value = value.substring(0, value.length() - 1);
+        }
+      }
+      expressions.push(expressions.pop().append(term(value)));
       return super.visitTerm(ctx);
     }
   }
