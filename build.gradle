@@ -46,6 +46,8 @@ configurations {
     antlr4 {
         description = "ANTLR4"
     }
+    all*.exclude group: 'org.abego.treelayout'
+    all*.exclude group: 'org.glassfish'
 }
 
 dependencies {
