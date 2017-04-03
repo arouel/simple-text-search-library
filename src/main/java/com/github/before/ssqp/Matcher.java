@@ -38,10 +38,6 @@ public abstract class Matcher {
     return and(word(value));
   }
 
-  final Matcher andNot(String value) {
-    return and(not(word(value)));
-  }
-
   abstract Matcher append(Matcher other);
 
   final boolean isEmpty() {
@@ -54,20 +50,12 @@ public abstract class Matcher {
     return this;
   }
 
-  Matcher not() {
-    return ImmutableNot.of(this);
-  }
-
   Matcher or(Matcher other) {
     return ImmutableOr.of(this, other);
   }
 
   final Matcher or(String value) {
     return or(word(value));
-  }
-
-  final Matcher orNot(String value) {
-    return or(not(word(value)));
   }
 
   @Override

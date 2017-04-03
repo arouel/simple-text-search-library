@@ -16,14 +16,8 @@ abstract class Empty extends Matcher {
   }
 
   @Override
-  public
-  boolean matches(String text) {
+  public boolean matches(String text) {
     return false;
-  }
-
-  @Override
-  Matcher not() {
-    return this;
   }
 
   @Override

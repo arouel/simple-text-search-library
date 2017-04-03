@@ -40,8 +40,6 @@ public class MatcherTest {
   public void testToString_complex() {
     Matcher expression1 = or(word("a"), not(or(word("b"), and(and(word("c"), not(word("d"))), word("e")))));
     assertThat(expression1.toString()).isEqualTo("a, -(b, (c -d e))");
-    Matcher expression2 = word("a").or(word("b").or(word("c").and(word("d").not()).and("e")).not());
-    assertThat(expression2.toString()).isEqualTo("a, -(b, (c -d e))");
   }
 
   @Test

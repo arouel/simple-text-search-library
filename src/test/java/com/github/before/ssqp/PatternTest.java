@@ -118,7 +118,7 @@ public class PatternTest {
 
   @Test
   public void testCompile_termA_or_inBrackets_termB_and_notTermC() {
-    assertThat(Pattern.compile("a,(b -c)")).isEqualTo(word("a").or(word("b").andNot("c")));
+    assertThat(Pattern.compile("a,(b -c)")).isEqualTo(word("a").or(word("b").and(not("c"))));
   }
 
   @Test
