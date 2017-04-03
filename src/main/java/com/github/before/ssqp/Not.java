@@ -15,8 +15,7 @@ abstract class Not extends Matcher {
   abstract Matcher expression();
 
   @Override
-  public
-  boolean matches(String text) {
+  public boolean matches(String text) {
     return !expression().matches(text);
   }
 
@@ -31,7 +30,13 @@ abstract class Not extends Matcher {
 
   @Override
   public String toString() {
-    return expression() instanceof Term ? "-" + expression() : "-(" + expression() + ")";
+    if (expression() instanceof Phrase) {
+      return "-" + expression();
+    }
+    if (expression() instanceof Word) {
+      return "-" + expression();
+    }
+    return "-(" + expression() + ")";
   }
 
   abstract Not withExpression(Matcher expression);

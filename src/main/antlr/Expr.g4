@@ -1,19 +1,33 @@
-grammar Expr;		
-prog  :	(expr NEWLINE)* ;
-and   : AND+ ;
-close : CLOSING_BRACKET ;
-not   : NOT ;
-open  : OPENING_BRACKET ;
-or    : AND* OR AND* ;
-term  : TERM
-      | QUOTE ~QUOTE* QUOTE
-      ;
-expr  : expr and expr
-      | expr or expr
-      | not expr
-      | term
-      | open expr close
-      ;
+grammar Expr;
+
+
+
+//==========================================================
+// Parser Rules
+//==========================================================
+
+and             : AND+ ;
+close           : CLOSING_BRACKET ;
+not             : NOT ;
+open            : OPENING_BRACKET ;
+or              : AND* OR AND* ;
+expr            : expr and expr
+                | expr or expr
+                | not expr
+                | phrase
+                | word
+                | open expr close
+                ;
+phrase          : QUOTE ~QUOTE* QUOTE ;
+prog            : (expr NEWLINE)* ;
+word            : TERM ;
+
+
+
+//==========================================================
+// Lexer Rules
+//==========================================================
+
 AND             : ' ' ;
 CLOSING_BRACKET : ')' ;
 NEWLINE         : [\r\n]+ ;

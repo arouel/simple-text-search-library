@@ -9,7 +9,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.FluentIterable;
 
 @Immutable
-abstract class Term extends Matcher {
+abstract class Word extends Matcher {
 
   @Override
   Matcher append(Matcher expression) {

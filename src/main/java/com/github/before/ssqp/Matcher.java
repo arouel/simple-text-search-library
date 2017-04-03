@@ -15,15 +15,19 @@ public abstract class Matcher {
   }
 
   static Matcher not(String value) {
-    return ImmutableNot.of(term(value));
+    return ImmutableNot.of(word(value));
   }
 
   static Matcher or(Matcher left, Matcher right) {
     return ImmutableOr.of(left, right);
   }
 
-  static Matcher term(String value) {
-    return ImmutableTerm.of(value);
+  static Matcher phrase(String value) {
+    return ImmutablePhrase.of(value);
+  }
+
+  static Matcher word(String value) {
+    return ImmutableWord.of(value);
   }
 
   Matcher and(Matcher other) {
@@ -31,11 +35,11 @@ public abstract class Matcher {
   }
 
   final Matcher and(String value) {
-    return and(term(value));
+    return and(word(value));
   }
 
   final Matcher andNot(String value) {
-    return and(not(term(value)));
+    return and(not(word(value)));
   }
 
   abstract Matcher append(Matcher other);
@@ -59,11 +63,11 @@ public abstract class Matcher {
   }
 
   final Matcher or(String value) {
-    return or(term(value));
+    return or(word(value));
   }
 
   final Matcher orNot(String value) {
-    return or(not(term(value)));
+    return or(not(word(value)));
   }
 
   @Override

@@ -4,7 +4,8 @@ import static com.github.before.ssqp.Matcher.and;
 import static com.github.before.ssqp.Matcher.empty;
 import static com.github.before.ssqp.Matcher.not;
 import static com.github.before.ssqp.Matcher.or;
-import static com.github.before.ssqp.Matcher.term;
+import static com.github.before.ssqp.Matcher.phrase;
+import static com.github.before.ssqp.Matcher.word;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -21,7 +22,8 @@ import com.github.before.ssqp.ExprParser.CloseContext;
 import com.github.before.ssqp.ExprParser.NotContext;
 import com.github.before.ssqp.ExprParser.OpenContext;
 import com.github.before.ssqp.ExprParser.OrContext;
-import com.github.before.ssqp.ExprParser.TermContext;
+import com.github.before.ssqp.ExprParser.PhraseContext;
+import com.github.before.ssqp.ExprParser.WordContext;
 
 public final class Pattern {
 
@@ -88,7 +90,7 @@ public final class Pattern {
     }
 
     @Override
-    public Void visitTerm(TermContext ctx) {
+    public Void visitPhrase(PhraseContext ctx) {
       String value = ctx.getText();
       if (value.startsWith("\"")) {
         value = value.substring(1);
@@ -96,8 +98,15 @@ public final class Pattern {
           value = value.substring(0, value.length() - 1);
         }
       }
-      expressions.push(expressions.pop().append(term(value)));
-      return super.visitTerm(ctx);
+      expressions.push(expressions.pop().append(phrase(value)));
+      return super.visitPhrase(ctx);
+    }
+
+    @Override
+    public Void visitWord(WordContext ctx) {
+      String value = ctx.getText();
+      expressions.push(expressions.pop().append(word(value)));
+      return super.visitWord(ctx);
     }
   }
 }

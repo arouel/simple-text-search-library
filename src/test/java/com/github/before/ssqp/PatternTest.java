@@ -2,7 +2,8 @@ package com.github.before.ssqp;
 
 import static com.github.before.ssqp.Matcher.empty;
 import static com.github.before.ssqp.Matcher.not;
-import static com.github.before.ssqp.Matcher.term;
+import static com.github.before.ssqp.Matcher.phrase;
+import static com.github.before.ssqp.Matcher.word;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
@@ -13,7 +14,7 @@ public class PatternTest {
 
   @Test
   public void testCompile_and_termA() {
-    assertThat(Pattern.compile(" a")).isEqualTo(term("a"));
+    assertThat(Pattern.compile(" a")).isEqualTo(word("a"));
   }
 
   @Test
@@ -25,7 +26,7 @@ public class PatternTest {
   public void testCompile_longTest() {
     Matcher matcher = Pattern.compile("asiofhiuahfaousfiuhufhiasuhfsha uaihsduihsuidhahsdhaishd ausidhuasidhashdiahs");
     assertThat(matcher).isEqualTo(
-        term("asiofhiuahfaousfiuhufhiasuhfsha").and(term("uaihsduihsuidhahsdhaishd").and("ausidhuasidhashdiahs")));
+        word("asiofhiuahfaousfiuhufhiasuhfsha").and(word("uaihsduihsuidhahsdhaishd").and("ausidhuasidhashdiahs")));
   }
 
   @Test
@@ -55,28 +56,28 @@ public class PatternTest {
 
   @Test
   public void testCompile_or_termA() {
-    assertThat(Pattern.compile(",a")).isEqualTo(term("a"));
+    assertThat(Pattern.compile(",a")).isEqualTo(word("a"));
   }
 
   @Test
   public void testCompile_phraseWithSpecialCharacters() {
-    assertThat(Pattern.compile("\",.?!:;-/\\[]{}@#*&\"")).isEqualTo(term(",.?!:;-/\\[]{}@#*&"));
+    assertThat(Pattern.compile("\",.?!:;-/\\[]{}@#*&\"")).isEqualTo(phrase(",.?!:;-/\\[]{}@#*&"));
   }
 
   @Test
   public void testCompile_quotationMark_manyTerms() {
-    assertThat(Pattern.compile("\"ab cd\"")).isEqualTo(term("ab cd"));
+    assertThat(Pattern.compile("\"ab cd\"")).isEqualTo(phrase("ab cd"));
   }
 
   @Test
   public void testCompile_quotationMark_oneTerm() {
-    assertThat(Pattern.compile("\"abcd\"")).isEqualTo(term("abcd"));
+    assertThat(Pattern.compile("\"abcd\"")).isEqualTo(phrase("abcd"));
   }
 
   @Test
   public void testCompile_quotationMark_scientificalValue() {
-    assertThat(Pattern.compile("\"2.4mm\"")).isEqualTo(term("2.4mm"));
-    assertThat(Pattern.compile("\"2,4mm\"")).isEqualTo(term("2,4mm"));
+    assertThat(Pattern.compile("\"2.4mm\"")).isEqualTo(phrase("2.4mm"));
+    assertThat(Pattern.compile("\"2,4mm\"")).isEqualTo(phrase("2,4mm"));
   }
 
   @Test
@@ -86,7 +87,7 @@ public class PatternTest {
 
   @Test
   public void testCompile_sentence() {
-    assertThat(Pattern.compile("\"How are you? Fine.\"")).isEqualTo(term("How are you? Fine."));
+    assertThat(Pattern.compile("\"How are you? Fine.\"")).isEqualTo(phrase("How are you? Fine."));
   }
 
   @Test
@@ -97,34 +98,34 @@ public class PatternTest {
 
   @Test
   public void testCompile_termA() {
-    assertThat(Pattern.compile("a")).isEqualTo(term("a"));
+    assertThat(Pattern.compile("a")).isEqualTo(word("a"));
   }
 
   @Test
   public void testCompile_termA_and_inBrackets_termB() {
-    assertThat(Pattern.compile("a (b)")).isEqualTo(term("a").and("b"));
+    assertThat(Pattern.compile("a (b)")).isEqualTo(word("a").and("b"));
   }
 
   @Test
   public void testCompile_termA_and_inBrackets_termB_and_termC() {
-    assertThat(Pattern.compile("a (b c)")).isEqualTo(term("a").and(term("b").and("c")));
+    assertThat(Pattern.compile("a (b c)")).isEqualTo(word("a").and(word("b").and("c")));
   }
 
   @Test
   public void testCompile_termA_and_termB() {
-    assertThat(Pattern.compile("a b")).isEqualTo(term("a").and("b"));
+    assertThat(Pattern.compile("a b")).isEqualTo(word("a").and("b"));
   }
 
   @Test
   public void testCompile_termA_or_inBrackets_termB_and_notTermC() {
-    assertThat(Pattern.compile("a,(b -c)")).isEqualTo(term("a").or(term("b").andNot("c")));
+    assertThat(Pattern.compile("a,(b -c)")).isEqualTo(word("a").or(word("b").andNot("c")));
   }
 
   @Test
   public void testCompile_termA_or_termB() {
-    assertThat(Pattern.compile("a,b")).isEqualTo(term("a").or(term("b")));
-    assertThat(Pattern.compile("a, b")).isEqualTo(term("a").or(term("b")));
-    assertThat(Pattern.compile("a , b")).isEqualTo(term("a").or(term("b")));
+    assertThat(Pattern.compile("a,b")).isEqualTo(word("a").or(word("b")));
+    assertThat(Pattern.compile("a, b")).isEqualTo(word("a").or(word("b")));
+    assertThat(Pattern.compile("a , b")).isEqualTo(word("a").or(word("b")));
   }
 
   @Test
@@ -134,6 +135,9 @@ public class PatternTest {
     assertThat(Pattern.compile("(lorem -sad), (ipsum -amot)").matches(text)).isTrue();
     assertThat(Pattern.compile("(lorem -sed), (ipsum -amet)").matches(text)).isFalse();
     assertThat(Pattern.compile("(lorem -sed), (ipsum -amet), (sed eirmod dolor)").matches(text)).isTrue();
+    assertThat(Pattern.compile("\"ipsum dolor\"").matches(text)).isTrue();
+    assertThat(Pattern.compile("\"ipsum dolor\" \"magna aliquyam\"").matches(text)).isTrue();
+    assertThat(Pattern.compile("\"ipsum dolor\" -\"magna aliquyam\"").matches(text)).isFalse();
   }
 
   @Test
