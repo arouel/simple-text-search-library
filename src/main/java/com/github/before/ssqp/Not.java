@@ -21,8 +21,8 @@ abstract class Not extends Matcher {
   }
 
   @Override
-  Matcher simplify() {
-    Matcher expression = expression().simplify();
+  Matcher normalize() {
+    Matcher expression = expression().normalize();
     if (expression.isEmpty()) {
       return empty();
     }

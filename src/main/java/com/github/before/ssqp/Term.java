@@ -29,7 +29,7 @@ abstract class Term extends Matcher {
   }
 
   @Override
-  Matcher simplify() {
+  Matcher normalize() {
     if (value().trim().isEmpty()) {
       return empty();
     }

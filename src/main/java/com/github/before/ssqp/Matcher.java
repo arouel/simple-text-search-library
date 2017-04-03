@@ -46,6 +46,10 @@ public abstract class Matcher {
 
   public abstract boolean matches(String text);
 
+  Matcher normalize() {
+    return this;
+  }
+
   Matcher not() {
     return ImmutableNot.of(this);
   }
@@ -60,10 +64,6 @@ public abstract class Matcher {
 
   final Matcher orNot(String value) {
     return or(not(term(value)));
-  }
-
-  Matcher simplify() {
-    return this;
   }
 
   @Override

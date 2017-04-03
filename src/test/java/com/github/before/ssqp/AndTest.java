@@ -46,29 +46,29 @@ public class AndTest {
   }
 
   @Test
-  public void testSimplify_full() {
-    assertThat(and(term("a"), term("b")).simplify()).isEqualTo(term("a").and(term("b")));
+  public void testNormalize_full() {
+    assertThat(and(term("a"), term("b")).normalize()).isEqualTo(term("a").and(term("b")));
   }
 
   @Test
-  public void testSimplify_leftEmpty() {
-    assertThat(and(empty(), term("a")).simplify()).isEqualTo(term("a"));
+  public void testNormalize_leftEmpty() {
+    assertThat(and(empty(), term("a")).normalize()).isEqualTo(term("a"));
   }
 
   @Test
-  public void testSimplify_nested() {
-    assertThat(and(term("a"), and(term("b"), empty())).simplify()).isEqualTo(term("a").and(term("b")));
-    assertThat(and(term("a"), and(empty(), and(term("b"), empty()))).simplify()).isEqualTo(term("a").and(term("b")));
+  public void testNormalize_nested() {
+    assertThat(and(term("a"), and(term("b"), empty())).normalize()).isEqualTo(term("a").and(term("b")));
+    assertThat(and(term("a"), and(empty(), and(term("b"), empty()))).normalize()).isEqualTo(term("a").and(term("b")));
   }
 
   @Test
-  public void testSimplify_onlyEmpty() {
-    assertThat(and(empty(), empty()).simplify()).isEqualTo(empty());
+  public void testNormalize_onlyEmpty() {
+    assertThat(and(empty(), empty()).normalize()).isEqualTo(empty());
   }
 
   @Test
-  public void testSimplify_rightEmpty() {
-    assertThat(and(term("a"), empty()).simplify()).isEqualTo(term("a"));
+  public void testNormalize_rightEmpty() {
+    assertThat(and(term("a"), empty()).normalize()).isEqualTo(term("a"));
   }
 
   @Test

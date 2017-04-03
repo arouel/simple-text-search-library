@@ -52,12 +52,12 @@ public class TermTest {
   }
 
   @Test
-  public void testSimplify_blankValue() {
-    assertThat(term(" ").simplify()).isEqualTo(empty());
+  public void testNormalize_blankValue() {
+    assertThat(term(" ").normalize()).isEqualTo(empty());
   }
 
   @Test
-  public void testSimplify_emptyValue() {
-    assertThat(term("").simplify()).isEqualTo(empty());
+  public void testNormalize_emptyValue() {
+    assertThat(term("").normalize()).isEqualTo(empty());
   }
 }

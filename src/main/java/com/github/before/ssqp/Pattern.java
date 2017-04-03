@@ -34,7 +34,7 @@ public final class Pattern {
       ParseTree tree = parser.expr();
       Visitor visitor = new Visitor();
       visitor.visit(tree);
-      return visitor.expression().simplify();
+      return visitor.expression().normalize();
     } catch (IOException e) {
       throw new RuntimeException(e.getLocalizedMessage(), e);
     }

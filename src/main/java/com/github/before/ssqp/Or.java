@@ -26,19 +26,19 @@ abstract class Or extends Matcher {
     return left().matches(text) || right().matches(text);
   }
 
-  @Parameter(order = 2)
-  abstract Matcher right();
-
   @Override
-  Matcher simplify() {
+  Matcher normalize() {
     if (left().isEmpty()) {
-      return right().simplify();
+      return right().normalize();
     }
     if (right().isEmpty()) {
-      return left().simplify();
+      return left().normalize();
     }
-    return or(left().simplify(), right().simplify());
+    return or(left().normalize(), right().normalize());
   }
+
+  @Parameter(order = 2)
+  abstract Matcher right();
 
   @Override
   public String toString() {

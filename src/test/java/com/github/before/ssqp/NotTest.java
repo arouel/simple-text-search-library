@@ -21,10 +21,10 @@ public class NotTest {
   }
 
   @Test
-  public void testSimplify() {
-    assertThat(not(empty()).simplify()).isEqualTo(empty());
-    assertThat(not(term("a")).simplify()).isEqualTo(not(term("a")));
-    assertThat(not(and(empty(), empty())).simplify()).isEqualTo(empty());
-    assertThat(not(and(term("a"), empty())).simplify()).isEqualTo(not(term("a")));
+  public void testNormalize() {
+    assertThat(not(empty()).normalize()).isEqualTo(empty());
+    assertThat(not(term("a")).normalize()).isEqualTo(not(term("a")));
+    assertThat(not(and(empty(), empty())).normalize()).isEqualTo(empty());
+    assertThat(not(and(term("a"), empty())).normalize()).isEqualTo(not(term("a")));
   }
 }
