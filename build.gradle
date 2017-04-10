@@ -1,4 +1,6 @@
 description = "Simple Text Search Library"
+group = 'com.github.before'
+version = '1.0'
 
 apply plugin: 'antlr'
 apply plugin: 'java'
@@ -27,7 +29,6 @@ buildscript {
 apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = 1.7
-version = '1.0'
 jar {
     manifest {
         attributes 'Implementation-Title': description,
@@ -53,11 +54,9 @@ repositories {
 }
 
 configurations {
-    antlr4 {
-        description = "ANTLR4"
-    }
-    all*.exclude group: 'org.abego.treelayout'
-    all*.exclude group: 'org.glassfish'
+    antlr.exclude group: 'org.abego.treelayout'
+    antlr.exclude group: 'org.glassfish'
+    runtime.exclude module: 'antlr4'
 }
 
 dependencies {
@@ -66,6 +65,7 @@ dependencies {
     compileOnly group: "org.immutables", name: "value", version: versions.immutables, classifier: 'annotations'
     testCompile group: "org.assertj", name: "assertj-core", version: versions.assertj
     testCompile group: "junit", name: "junit", version: versions.junit
+    runtime group: "org.antlr", name: "antlr4-runtime", version: versions.antlr
 }
 
 generateGrammarSource {
